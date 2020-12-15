@@ -1,33 +1,31 @@
+# This script can be used for replacing part of text inside database table
 import csv
-
-# ulazni fajl sa linkovima
-# kolona 1 -> stari link
-# kolona 2 -> novi link
-csvFile = 'links.csv'
-
-# tabela koja treba da se promeni
-# longdesc
-sqlFile = 'ulaz.sql'
-
-# izlazni fajl posle promene
-newFile = 'izlaz.sql'
-
-
-links   = []
-with open(csvFile) as file:
-	content = csv.reader(file, delimiter=',')
-	for row in content:
-		links.append(row)
-
+# Input File
+# column 1 -> Old text
+# column 2 -> New text
+csvFile = 'input.csv'
+# Old SQL File
+oldFile = 'old.sql'
+# New SQL File
+newFile = 'new.sql'
+# list from csv file
+old_new_text = []
+# SQL file content
 sqlContent = None
-sqlReader  = open(sqlFile, "r")
-sqlContent = sqlReader.read()
-sqlReader.close()
+
+with open(csvFile) as file:
+  content = csv.reader(file, delimiter=',')
+    for row in content:
+      links.append(row)
+
+reader = open(oldFile, "r")
+sqlContent = reader.read()
+reader.close()
 
 if sqlContent is not None:
- for link in links:
-  sqlContent = sqlContent.replace(link[0], link[1], 1)
+ for text in old_new_text:
+  sqlContent = sqlContent.replace(old_new_text[0], old_new_text[1], 1)
 
-file = open(newFile, 'w')
-file.write(sqlContent)
-file.close()
+writer = open(newFile, 'w')
+writer.write(sqlContent)
+writer.close()
